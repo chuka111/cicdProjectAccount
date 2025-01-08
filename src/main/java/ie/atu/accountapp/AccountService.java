@@ -24,6 +24,18 @@ class AccountService {
         return ResponseEntity.ok(account.get().getBalance());
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<String> updateBalance(@RequestParam String accountId, @RequestParam Double amount) {
+        Optional<Account> accountOpt = accountRepository.findById(accountId);
+        if (accountOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        }
+        Account account = accountOpt.get();
+        account.setBalance(account.getBalance() + amount);
+        accountRepository.save(account);
+        return ResponseEntity.ok("Balance updated");
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> createAccount(@RequestBody Account account) {
         if (accountRepository.existsById(account.getAccountId())) {
