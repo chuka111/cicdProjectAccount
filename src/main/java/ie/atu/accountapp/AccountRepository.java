@@ -1,4 +1,7 @@
 package ie.atu.accountapp;
 
-public interface AccountRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+interface AccountRepository extends JpaRepository<Account, String> {
+
 }
